@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文提示词自动完善工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        neutral: '#F5F7FA',
+                        dark: '#1D2129',
+                        light: '#F2F3F5'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .nav-active {
+                @apply bg-primary text-white border-l-4 border-primary;
+            }
+            .card-shadow {
+                @apply shadow-lg hover:shadow-xl transition-shadow duration-300;
+            }
+            .btn-effect {
+                @apply transform hover:scale-105 active:scale-95 transition-transform duration-200;
+            }
+            .prompt-btn.active {
+                @apply bg-primary/10 text-primary border-primary;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-dark">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 左侧导航 -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex-shrink-0 hidden md:block">
+            <nav class="h-full flex flex-col py-6">
+                <div class="px-6 mb-8">
+                    <h1 class="text-xl font-bold text-primary flex items-center">
+                        <i class="fa fa-file-text-o mr-2"></i>论文助手
+                    </h1>
+                </div>
+                
+                <ul class="space-y-1 px-3 flex-grow">
+                    <li>
+                        <a href="#开题报告" class="nav-item nav-active flex items-center px-4 py-3 text-sm rounded-lg transition-all duration-200">
+                            <i class="fa fa-bookmark-o w-5 text-center mr-3"></i>
+                            <span>开题报告</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#文献综述" class="nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                            <span>文献综述</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#正文" class="nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-file-text w-5 text-center mr-3"></i>
+                            <span>正文</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#论文修改" class="nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-pencil w-5 text-center mr-3"></i>
+                            <span>论文修改</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#问卷实证" class="nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-bar-chart w-5 text-center mr-3"></i>
+                            <span>问卷实证</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="px-6 pt-6 border-t border-gray-200">
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-2"></i>
+                        <span>提示词将自动完善</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧内容区 -->
+        <main class="flex-1 overflow-y-auto bg-gray-50 p-6 md:p-8">
+            <!-- 移动端菜单按钮 -->
+            <div class="md:hidden mb-6">
+                <button id="menuToggle" class="bg-white p-2 rounded-md shadow-sm">
+                    <i class="fa fa-bars text-gray-600"></i>
+                </button>
+            </div>
+            
+            <!-- 开题报告部分 -->
+            <section id="开题报告" class="mb-12 bg-white rounded-xl p-6 card-shadow">
+                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">开题报告</h2>
+
+                <!-- 大模型分析框架部分 -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        大模型分析框架
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="major" class="block text-sm font-medium text-gray-700 mb-1">请输入专业</label>
+                            <input type="text" id="major" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：计算机科学与技术">
+                        </div>
+                        <div>
+                            <label for="researchTopic" class="block text-sm font-medium text-gray-700 mb-1">请输入研究主题</label>
+                            <input type="text" id="researchTopic" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能在教育中的应用研究">
+                        </div>
+                    </div>
+                    
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background">
+                                <i class="fa fa-check-circle text-primary mr-1"></i>学术化
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="background">
+                                <i class="fa fa-clock-o text-primary mr-1"></i>时效性
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="background">
+                                <i class="fa fa-ban text-primary mr-1"></i>去AI味
+                            </button>
+                        </div>
+                        <p id="backgroundPrompt" class="text-sm">我是一名【】专业的本科/硕士生，即将毕业，我的研究主题是《》，现在正在写开题报告部分。    请你扮演我的导师，对于我研究的主题学术造诣非常的深。    这是我的开题大纲，你先阅读并且掌握一下  【 一、问题的提出及背景 （不少于 3000 字，可加页） （一） 研究背景 （二）研究意义 （三）国内外研究现状     1.国内研究现状     2.国外研究现状     3.文献述评     4.参考文献（参考文献尽量不要用硕博论文，尽量用高质量的期刊；特别要注意期刊质量以及文章的新颖性）  二、解决问题的思路及方案 （一）研究目标（研究目标简化，还可以条理化，目标 2～3 个就可以了） （二） 研究内容 （三）论文提纲 （四）研究方法 （五）技术路线图（先语言描述研究思路，大致 500 字，然后才是路线图）  三、前期基础 （一）研究基础 参考模板： 1.完成了大部分的理论课程学习，具有了一定的理论基础。研一完成必修课程学习，均取得优良成绩。  2.大量阅读......相关文献，现已完成......研究的文献综述写作。 3.2024 年 9 月参加学校组织的量化研究方法班，初步学习了 Stata15.0 软件的基本操作，为本论文中需要用到的实证方法打下基础。 （二）研究过程中可能遇到的困难和问题  四、预期结果及目标 （一）预期结果 精简一段话就可以，研究过程结果以及完成一篇优秀的硕士论文 （二）进度计划安排 2024 年 9 月 -10 月：XXXXXX 2024 年 11 月 -12 月：XXXXXX 2025 年 1 月 -3 月：XXXXXX 2025 年 4 月 -5 月：XXXXXX 2025 年 6 月 -10 月：XXXXXX 2025 年 11 月 -2026 年 3 月：XXXXXX 2026 年 4 月 -2026 年 6 月：XXXXXX        】</p>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="backgroundPrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 研究背景部分 -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2">1</span>
+                        研究背景
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <label for="researchTopic" class="block text-sm font-medium text-gray-700 mb-1">请输入研究主题</label>
+                        <input type="text" id="researchTopic" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能在教育中的应用研究">
+                    </div>
+                    
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <!-- 修改：移除opacity-0和group-hover:opacity-100，添加mt-2确保按钮在提示词下方 -->
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background">
+                                <i class="fa fa-check-circle text-primary mr-1"></i>学术化
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="background">
+                                <i class="fa fa-clock-o text-primary mr-1"></i>时效性
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="background">
+                                <i class="fa fa-ban text-primary mr-1"></i>去AI味
+                            </button>
+                        </div>
+                        <p id="backgroundPrompt" class="text-sm">帮我搜索一下和我主题相关的政策和事实，【请先输入研究主题】；我准备放到研究背景中，作为论证补充；</p>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="backgroundPrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 研究意义部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2">2</span>
+                        研究意义
+                    </h3>
+
+                    <div class="mb-4">
+                        <label for="chapterTitle" class="block text-sm font-medium text-gray-700 mb-1">请输入章节题目</label>
+                        <input type="text" id="chapterTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能教育应用的价值与挑战">
+                    </div>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <!-- 修改：移除opacity-0和group-hover:opacity-100，添加mt-2确保按钮在提示词下方 -->
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="significance">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用3级标题组织内容" data-group="significance">
+                                <i class="fa fa-header text-primary mr-1"></i>3级标题
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请增加案例支持论点" data-group="significance">
+                                <i class="fa fa-file-text-o text-primary mr-1"></i>加案例
+                            </button>
+                        </div>
+                        <p id="significancePrompt" class="text-sm">很好，根据上述你搜索的结果，我们来写第一章【请输入章节题目】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】使用学术语言，用文本段的形式回答我；不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；注意上下文逻辑；</p>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="significancePrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+                <!-- 研究目标部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        研究目标
+                    </h3>
+
+                    <div class="mb-4">
+                        <label for="chapterTitle" class="block text-sm font-medium text-gray-700 mb-1">请输入章节题目</label>
+                        <input type="text" id="chapterTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能教育应用的价值与挑战">
+                    </div>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="significance">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用3级标题组织内容" data-group="significance">
+                                <i class="fa fa-header text-primary mr-1"></i>3级标题
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请增加案例支持论点" data-group="significance">
+                                <i class="fa fa-file-text-o text-primary mr-1"></i>加案例
+                            </button>
+                        </div>
+                        <p id="significancePrompt" class="text-sm">很好，根据上述你搜索的结果，我们来写第一章【请输入章节题目】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】使用学术语言，用文本段的形式回答我；不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；注意上下文逻辑；</p>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="significancePrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 文献综述部分 (占位符) -->
+            <section id="文献综述" class="mb-12 bg-white rounded-xl p-6 card-shadow opacity-70">
+                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">文献综述</h2>
+                <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
+                <!-- 这里将由用户后续补充完整 -->
+            </section>
+            
+            <!-- 正文部分 (占位符) -->
+            <section id="正文" class="mb-12 bg-white rounded-xl p-6 card-shadow opacity-70">
+                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">正文</h2>
+                <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
+                <!-- 这里将由用户后续补充完整 -->
+            </section>
+            
+            <!-- 论文修改部分 (占位符) -->
+            <section id="论文修改" class="mb-12 bg-white rounded-xl p-6 card-shadow opacity-70">
+                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">论文修改</h2>
+                <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
+                <!-- 这里将由用户后续补充完整 -->
+            </section>
+            
+            <!-- 问卷实证部分 (占位符) -->
+            <section id="问卷实证" class="mb-12 bg-white rounded-xl p-6 card-shadow opacity-70">
+                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">问卷实证</h2>
+                <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
+                <!-- 这里将由用户后续补充完整 -->
+            </section>
+        </main>
+    </div>
+    
+    <!-- 移动端侧边菜单 -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden md:hidden">
+        <div class="w-64 h-full bg-white transform transition-transform duration-300 -translate-x-full" id="mobileMenuContent">
+            <!-- 移动端菜单内容，与左侧导航相同 -->
+            <nav class="h-full flex flex-col py-6">
+                <div class="px-6 mb-8 flex justify-between items-center">
+                    <h1 class="text-xl font-bold text-primary flex items-center">
+                        <i class="fa fa-file-text-o mr-2"></i>论文助手
+                    </h1>
+                    <button id="closeMenu" class="text-gray-500">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                
+                <ul class="space-y-1 px-3 flex-grow">
+                    <li>
+                        <a href="#开题报告" class="mobile-nav-item nav-active flex items-center px-4 py-3 text-sm rounded-lg transition-all duration-200">
+                            <i class="fa fa-bookmark-o w-5 text-center mr-3"></i>
+                            <span>开题报告</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#文献综述" class="mobile-nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                            <span>文献综述</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#正文" class="mobile-nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-file-text w-5 text-center mr-3"></i>
+                            <span>正文</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#论文修改" class="mobile-nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-pencil w-5 text-center mr-3"></i>
+                            <span>论文修改</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#问卷实证" class="mobile-nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                            <i class="fa fa-bar-chart w-5 text-center mr-3"></i>
+                            <span>问卷实证</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- 复制成功提示 -->
+    <div id="copyToast" class="fixed bottom-6 right-6 bg-dark text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span>复制成功！</span>
+    </div>
+
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const researchTopicInput = document.getElementById('researchTopic');
+            const chapterTitleInput = document.getElementById('chapterTitle');
+            const promptButtons = document.querySelectorAll('.prompt-btn');
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            const copyToast = document.getElementById('copyToast');
+            const navItems = document.querySelectorAll('.nav-item');
+            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuContent = document.getElementById('mobileMenuContent');
+            const closeMenu = document.getElementById('closeMenu');
+            
+            // 存储已选择的提示词
+            const activePrompts = {
+                background: [],
+                significance: []
+            };
+            
+            // 基础提示词模板
+            const basePrompts = {
+                background: '帮我搜索一下和我主题相关的政策和事实，【{topic}】；我准备放到研究背景中，作为论证补充；',
+                significance: '很好，根据上述你搜索的结果，我们来写第一章【{chapter}】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】使用学术语言，用文本段的形式回答我；不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；注意上下文逻辑；'
+            };
+            
+            // 更新提示词函数
+            function updatePrompt(group) {
+                let topic = researchTopicInput.value.trim() || '请先输入研究主题';
+                let chapter = chapterTitleInput.value.trim() || '请输入章节题目';
+                
+                let promptElement, basePrompt;
+                
+                if (group === 'background') {
+                    promptElement = document.getElementById('backgroundPrompt');
+                    basePrompt = basePrompts.background.replace('{topic}', topic);
+                } else if (group === 'significance') {
+                    promptElement = document.getElementById('significancePrompt');
+                    basePrompt = basePrompts.significance.replace('{chapter}', chapter);
+                }
+                
+                // 组合基础提示词和选中的提示词
+                let fullPrompt = basePrompt;
+                activePrompts[group].forEach(prompt => {
+                    fullPrompt += ' ' + prompt + ';';
+                });
+                
+                promptElement.textContent = fullPrompt;
+            }
+            
+            // 实时更新研究主题提示词
+            researchTopicInput.addEventListener('input', function() {
+                updatePrompt('background');
+            });
+            
+            // 实时更新章节题目提示词
+            chapterTitleInput.addEventListener('input', function() {
+                updatePrompt('significance');
+            });
+            
+            // 提示词按钮点击事件 - 切换状态
+            promptButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const promptText = this.getAttribute('data-prompt');
+                    const group = this.getAttribute('data-group');
+                    
+                    // 检查是否已存在该提示词
+                    const index = activePrompts[group].indexOf(promptText);
+                    
+                    if (index === -1) {
+                        // 添加提示词
+                        activePrompts[group].push(promptText);
+                        this.classList.add('active');
+                    } else {
+                        // 移除提示词
+                        activePrompts[group].splice(index, 1);
+                        this.classList.remove('active');
+                    }
+                    
+                    // 更新提示词显示
+                    updatePrompt(group);
+                    
+                    // 添加点击效果
+                    this.classList.add('scale-90');
+                    setTimeout(() => {
+                        this.classList.remove('scale-90');
+                    }, 200);
+                });
+            });
+            
+            // 复制按钮点击事件
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const promptText = document.getElementById(targetId).textContent;
+                    
+                    // 复制到剪贴板
+                    navigator.clipboard.writeText(promptText).then(() => {
+                        // 显示复制成功提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        
+                        // 3秒后隐藏提示
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 3000);
+                    });
+                });
+            });
+            
+            // 导航项点击事件 - 桌面端
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有导航项的活跃状态
+                    navItems.forEach(nav => {
+                        nav.classList.remove('nav-active');
+                        nav.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    });
+                    
+                    // 添加当前导航项的活跃状态
+                    this.classList.add('nav-active');
+                    this.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                    
+                    // 滚动到对应部分
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // 导航项点击事件 - 移动端
+            mobileNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有导航项的活跃状态
+                    mobileNavItems.forEach(nav => {
+                        nav.classList.remove('nav-active');
+                        nav.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    });
+                    
+                    // 添加当前导航项的活跃状态
+                    this.classList.add('nav-active');
+                    this.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                    
+                    // 关闭移动菜单
+                    mobileMenuContent.classList.add('-translate-x-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                    
+                    // 滚动到对应部分
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // 移动端菜单切换
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenuContent.classList.remove('-translate-x-full');
+                }, 10);
+            });
+            
+            // 关闭移动端菜单
+            closeMenu.addEventListener('click', function() {
+                mobileMenuContent.classList.add('-translate-x-full');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+            });
+            
+            // 点击移动端菜单外部关闭菜单
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    mobileMenuContent.classList.add('-translate-x-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
