@@ -109,9 +109,28 @@
                 </button>
             </div>
             
+            <!-- 全局专业和研究主题输入 -->
+            <div class="mb-8 bg-white rounded-xl p-6 card-shadow">
+                <h2 class="text-xl font-bold mb-4 pb-2 border-b border-gray-100">基本信息</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="major" class="block text-sm font-medium text-gray-700 mb-1">请输入专业</label>
+                        <input type="text" id="major" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：计算机科学与技术">
+                    </div>
+                    <div>
+                        <label for="researchTopic" class="block text-sm font-medium text-gray-700 mb-1">请输入研究主题</label>
+                        <input type="text" id="researchTopic" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能在教育中的应用研究">
+                    </div>
+                </div>
+            </div>
+            
             <!-- 开题报告部分 -->
             <section id="开题报告" class="mb-12 bg-white rounded-xl p-6 card-shadow">
-                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">开题报告</h2>
+                <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">开题报告
+                    <button id="copySectionTitleBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="复制标题">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </h2>
 
                 <!-- 大模型分析框架部分 -->
                 <div class="mb-8">
@@ -120,34 +139,23 @@
                         大模型分析框架
                     </h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label for="major" class="block text-sm font-medium text-gray-700 mb-1">请输入专业</label>
-                            <input type="text" id="major" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：计算机科学与技术">
-                        </div>
-                        <div>
-                            <label for="researchTopic" class="block text-sm font-medium text-gray-700 mb-1">请输入研究主题</label>
-                            <input type="text" id="researchTopic" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能在教育中的应用研究">
-                        </div>
-                    </div>
-                    
                     <div class="bg-neutral p-4 rounded-lg mb-4 relative">
                         <div class="flex flex-wrap gap-2 mt-2">
-                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="framework">
                                 <i class="fa fa-check-circle text-primary mr-1"></i>学术化
                             </button>
-                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="background">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="framework">
                                 <i class="fa fa-clock-o text-primary mr-1"></i>时效性
                             </button>
-                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="background">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="framework">
                                 <i class="fa fa-ban text-primary mr-1"></i>去AI味
                             </button>
                         </div>
-                        <p id="backgroundPrompt" class="text-sm">我是一名【】专业的本科/硕士生，即将毕业，我的研究主题是《》，现在正在写开题报告部分。    请你扮演我的导师，对于我研究的主题学术造诣非常的深。    这是我的开题大纲，你先阅读并且掌握一下  【 一、问题的提出及背景 （不少于 3000 字，可加页） （一） 研究背景 （二）研究意义 （三）国内外研究现状     1.国内研究现状     2.国外研究现状     3.文献述评     4.参考文献（参考文献尽量不要用硕博论文，尽量用高质量的期刊；特别要注意期刊质量以及文章的新颖性）  二、解决问题的思路及方案 （一）研究目标（研究目标简化，还可以条理化，目标 2～3 个就可以了） （二） 研究内容 （三）论文提纲 （四）研究方法 （五）技术路线图（先语言描述研究思路，大致 500 字，然后才是路线图）  三、前期基础 （一）研究基础 参考模板： 1.完成了大部分的理论课程学习，具有了一定的理论基础。研一完成必修课程学习，均取得优良成绩。  2.大量阅读......相关文献，现已完成......研究的文献综述写作。 3.2024 年 9 月参加学校组织的量化研究方法班，初步学习了 Stata15.0 软件的基本操作，为本论文中需要用到的实证方法打下基础。 （二）研究过程中可能遇到的困难和问题  四、预期结果及目标 （一）预期结果 精简一段话就可以，研究过程结果以及完成一篇优秀的硕士论文 （二）进度计划安排 2024 年 9 月 -10 月：XXXXXX 2024 年 11 月 -12 月：XXXXXX 2025 年 1 月 -3 月：XXXXXX 2025 年 4 月 -5 月：XXXXXX 2025 年 6 月 -10 月：XXXXXX 2025 年 11 月 -2026 年 3 月：XXXXXX 2026 年 4 月 -2026 年 6 月：XXXXXX        】</p>
+                        <pre id="frameworkPrompt" class="text-sm whitespace-pre-line">提示词</pre>
                     </div>
 
                     <div class="flex justify-end">
-                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="backgroundPrompt">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="frameworkPrompt">
                             <i class="fa fa-copy mr-2"></i>复制
                         </button>
                     </div>
@@ -160,13 +168,7 @@
                         研究背景
                     </h3>
                     
-                    <div class="mb-4">
-                        <label for="researchTopic" class="block text-sm font-medium text-gray-700 mb-1">请输入研究主题</label>
-                        <input type="text" id="researchTopic" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能在教育中的应用研究">
-                    </div>
-                    
                     <div class="bg-neutral p-4 rounded-lg mb-4 relative">
-                        <!-- 修改：移除opacity-0和group-hover:opacity-100，添加mt-2确保按钮在提示词下方 -->
                         <div class="flex flex-wrap gap-2 mt-2">
                             <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background">
                                 <i class="fa fa-check-circle text-primary mr-1"></i>学术化
@@ -178,7 +180,7 @@
                                 <i class="fa fa-ban text-primary mr-1"></i>去AI味
                             </button>
                         </div>
-                        <p id="backgroundPrompt" class="text-sm">帮我搜索一下和我主题相关的政策和事实，【请先输入研究主题】；我准备放到研究背景中，作为论证补充；</p>
+                        <pre id="backgroundPrompt" class="text-sm whitespace-pre-line">提示词</p>
                     </div>
 
                     <div class="flex justify-end">
@@ -189,7 +191,7 @@
                 </div>
 
                 <!-- 研究意义部分 -->
-                <div>
+                <div class="mb-8">
                     <h3 class="text-lg font-semibold mb-4 flex items-center">
                         <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2">2</span>
                         研究意义
@@ -201,7 +203,6 @@
                     </div>
 
                     <div class="bg-neutral p-4 rounded-lg mb-4 relative">
-                        <!-- 修改：移除opacity-0和group-hover:opacity-100，添加mt-2确保按钮在提示词下方 -->
                         <div class="flex flex-wrap gap-2 mt-2">
                             <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="significance">
                                 <i class="fa fa-list text-primary mr-1"></i>分点阐述
@@ -213,7 +214,7 @@
                                 <i class="fa fa-file-text-o text-primary mr-1"></i>加案例
                             </button>
                         </div>
-                        <p id="significancePrompt" class="text-sm">很好，根据上述你搜索的结果，我们来写第一章【请输入章节题目】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】使用学术语言，用文本段的形式回答我；不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；注意上下文逻辑；</p>
+                        <pre id="significancePrompt" class="text-sm whitespace-pre-line">提示词</p>
                     </div>
                     
                     <div class="flex justify-end">
@@ -222,6 +223,7 @@
                         </button>
                     </div>
                 </div>
+                
                 <!-- 研究目标部分 -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4 flex items-center">
@@ -229,28 +231,23 @@
                         研究目标
                     </h3>
 
-                    <div class="mb-4">
-                        <label for="chapterTitle" class="block text-sm font-medium text-gray-700 mb-1">请输入章节题目</label>
-                        <input type="text" id="chapterTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能教育应用的价值与挑战">
-                    </div>
-
                     <div class="bg-neutral p-4 rounded-lg mb-4 relative">
                         <div class="flex flex-wrap gap-2 mt-2">
-                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="significance">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="objectives">
                                 <i class="fa fa-list text-primary mr-1"></i>分点阐述
                             </button>
-                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用3级标题组织内容" data-group="significance">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用3级标题组织内容" data-group="objectives">
                                 <i class="fa fa-header text-primary mr-1"></i>3级标题
                             </button>
-                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请增加案例支持论点" data-group="significance">
-                                <i class="fa fa-file-text-o text-primary mr-1"></i>加案例
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保目标可衡量、可实现" data-group="objectives">
+                                <i class="fa fa-check-square-o text-primary mr-1"></i>可衡量
                             </button>
                         </div>
-                        <p id="significancePrompt" class="text-sm">很好，根据上述你搜索的结果，我们来写第一章【请输入章节题目】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】使用学术语言，用文本段的形式回答我；不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；注意上下文逻辑；</p>
+                        <pre id="objectivesPrompt" class="text-sm whitespace-pre-line">提示词</p>
                     </div>
                     
                     <div class="flex justify-end">
-                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="significancePrompt">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="objectivesPrompt">
                             <i class="fa fa-copy mr-2"></i>复制
                         </button>
                     </div>
@@ -260,6 +257,9 @@
             <!-- 文献综述部分 (占位符) -->
             <section id="文献综述" class="mb-12 bg-white rounded-xl p-6 card-shadow opacity-70">
                 <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">文献综述</h2>
+                <button id="copyReferenceBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="参考文献">
+                        <i class="fa fa-copy">参考文献</i>
+                    </button>
                 <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
                 <!-- 这里将由用户后续补充完整 -->
             </section>
@@ -347,6 +347,7 @@
         // 等待DOM加载完成
         document.addEventListener('DOMContentLoaded', function() {
             // 获取DOM元素
+            const majorInput = document.getElementById('major');
             const researchTopicInput = document.getElementById('researchTopic');
             const chapterTitleInput = document.getElementById('chapterTitle');
             const promptButtons = document.querySelectorAll('.prompt-btn');
@@ -358,52 +359,73 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileMenuContent = document.getElementById('mobileMenuContent');
             const closeMenu = document.getElementById('closeMenu');
+
+            const copySectionTitleBtn = document.getElementById('copySectionTitleBtn');
+            if (copySectionTitleBtn) {
+                copySectionTitleBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('开题报告').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
             
             // 存储已选择的提示词
             const activePrompts = {
+                framework: [],
                 background: [],
-                significance: []
+                significance: [],
+                objectives: []
             };
             
             // 基础提示词模板
             const basePrompts = {
+                framework: '我是一名【{major}】专业的本科/硕士生，即将毕业，我的研究主题是《{topic}》，现在正在写开题报告部分。\n\n请你扮演我的导师，对于我研究的主题学术造诣非常的深。\n\n这是我的开题大纲，你先阅读并且掌握一下\n【\n 一、问题的提出及背景 （不少于 3000 字，可加页） （一） 研究背景 （二）研究意义 （三）国内外研究现状     1.国内研究现状     2.国外研究现状     3.文献述评     4.参考文献（参考文献尽量不要用硕博论文，尽量用高质量的期刊；特别要注意期刊质量以及文章的新颖性）  二、解决问题的思路及方案 （一）研究目标（研究目标简化，还可以条理化，目标 2～3 个就可以了） （二） 研究内容 （三）论文提纲 （四）研究方法 （五）技术路线图（先语言描述研究思路，大致 500 字，然后才是路线图）  三、前期基础 （一）研究基础 参考模板： 1.完成了大部分的理论课程学习，具有了一定的理论基础。研一完成必修课程学习，均取得优良成绩。  2.大量阅读......相关文献，现已完成......研究的文献综述写作。 3.2024 年 9 月参加学校组织的量化研究方法班，初步学习了 Stata15.0 软件的基本操作，为本论文中需要用到的实证方法打下基础。 （二）研究过程中可能遇到的困难和问题  四、预期结果及目标 （一）预期结果 精简一段话就可以，研究过程结果以及完成一篇优秀的硕士论文 （二）进度计划安排 2024 年 9 月 -10 月：XXXXXX 2024 年 11 月 -12 月：XXXXXX 2025 年 1 月 -3 月：XXXXXX 2025 年 4 月 -5 月：XXXXXX 2025 年 6 月 -10 月：XXXXXX 2025 年 11 月 -2026 年 3 月：XXXXXX 2026 年 4 月 -2026 年 6 月：XXXXXX      \n】',
                 background: '帮我搜索一下和我主题相关的政策和事实，【{topic}】；我准备放到研究背景中，作为论证补充；',
-                significance: '很好，根据上述你搜索的结果，我们来写第一章【{chapter}】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】使用学术语言，用文本段的形式回答我；不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；注意上下文逻辑；'
+                significance: '很好，根据上述你搜索的结果，我们来写第一章【{chapter}】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】\n使用学术语言，用文本段的形式回答我；\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；\n注意上下文逻辑；',
+                objectives: '请基于【{major}】专业的【{topic}】研究主题，制定2-3个简洁、条理化的研究目标，确保目标具有明确性和可实现性；'
             };
             
             // 更新提示词函数
-            function updatePrompt(group) {
-                let topic = researchTopicInput.value.trim() || '请先输入研究主题';
-                let chapter = chapterTitleInput.value.trim() || '请输入章节题目';
+            function updateAllPrompts() {
+                const major = majorInput.value.trim() || '请先输入专业';
+                const topic = researchTopicInput.value.trim() || '请先输入研究主题';
+                const chapter = chapterTitleInput.value.trim() || '请输入章节题目';
                 
-                let promptElement, basePrompt;
-                
-                if (group === 'background') {
-                    promptElement = document.getElementById('backgroundPrompt');
-                    basePrompt = basePrompts.background.replace('{topic}', topic);
-                } else if (group === 'significance') {
-                    promptElement = document.getElementById('significancePrompt');
-                    basePrompt = basePrompts.significance.replace('{chapter}', chapter);
-                }
-                
-                // 组合基础提示词和选中的提示词
-                let fullPrompt = basePrompt;
-                activePrompts[group].forEach(prompt => {
-                    fullPrompt += ' ' + prompt + ';';
+                // 更新所有提示词
+                Object.keys(basePrompts).forEach(group => {
+                    let promptElement = document.getElementById(`${group}Prompt`);
+                    if (!promptElement) return;
+                    
+                    // 替换模板变量
+                    let basePrompt = basePrompts[group]
+                        .replace('{major}', major)
+                        .replace('{topic}', topic)
+                        .replace('{chapter}', chapter);
+                    
+                    // 组合基础提示词和选中的提示词
+                    let fullPrompt = basePrompt;
+                    activePrompts[group].forEach(prompt => {
+                        fullPrompt += '\n' + prompt + ';';
+                    });
+                    
+                    promptElement.textContent = fullPrompt;
                 });
-                
-                promptElement.textContent = fullPrompt;
             }
             
-            // 实时更新研究主题提示词
-            researchTopicInput.addEventListener('input', function() {
-                updatePrompt('background');
-            });
+            // 监听专业输入变化
+            majorInput.addEventListener('input', updateAllPrompts);
             
-            // 实时更新章节题目提示词
-            chapterTitleInput.addEventListener('input', function() {
-                updatePrompt('significance');
-            });
+            // 监听研究主题输入变化
+            researchTopicInput.addEventListener('input', updateAllPrompts);
+            
+            // 监听章节题目输入变化
+            chapterTitleInput.addEventListener('input', updateAllPrompts);
             
             // 提示词按钮点击事件 - 切换状态
             promptButtons.forEach(button => {
@@ -425,7 +447,7 @@
                     }
                     
                     // 更新提示词显示
-                    updatePrompt(group);
+                    updateAllPrompts();
                     
                     // 添加点击效果
                     this.classList.add('scale-90');
@@ -533,6 +555,9 @@
                     }, 300);
                 }
             });
+            
+            // 初始化所有提示词
+            updateAllPrompts();
         });
     </script>
 </body>
