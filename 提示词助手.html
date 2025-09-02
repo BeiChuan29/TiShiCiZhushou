@@ -64,6 +64,8 @@
                             <i class="fa fa-bookmark-o w-5 text-center mr-3"></i>
                             <span>开题报告</span>
                         </a>
+                        <!-- 子导航容器 -->
+                        <ul id="subNavContainer" class="space-y-1 px-3 mt-2"></ul>
                     </li>
                     <li>
                         <a href="#文献综述" class="nav-item flex items-center px-4 py-3 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
@@ -91,6 +93,8 @@
                     </li>
                 </ul>
                 
+                
+                
                 <div class="px-6 pt-6 border-t border-gray-200">
                     <div class="flex items-center text-sm text-gray-500">
                         <i class="fa fa-info-circle mr-2"></i>
@@ -109,7 +113,7 @@
                 </button>
             </div>
             
-            <!-- 全局专业和研究主题输入 -->
+            <!-- 全局专业、学历和研究主题输入 -->
             <div class="mb-8 bg-white rounded-xl p-6 card-shadow">
                 <h2 class="text-xl font-bold mb-4 pb-2 border-b border-gray-100">基本信息</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -118,8 +122,23 @@
                         <input type="text" id="major" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：计算机科学与技术">
                     </div>
                     <div>
+                        <label for="education" class="block text-sm font-medium text-gray-700 mb-1">请输入学历</label>
+                        <input type="text" id="education" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：本科 / 硕士 / 博士">
+                    </div>
+                    <div>
                         <label for="researchTopic" class="block text-sm font-medium text-gray-700 mb-1">请输入研究主题</label>
                         <input type="text" id="researchTopic" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能在教育中的应用研究">
+                    </div>
+
+                    <!-- 新增：一次性解析输入 -->
+                    <div class="md:col-span-2">
+                        <label for="bulkInput" class="block text-sm font-medium text-gray-700 mb-1">一次性输入（专业 学历 研究主题）</label>
+                        <textarea id="bulkInput" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="支持用换行、逗号、斜线或空格分隔，例如：计算机科学与技术 本科 人工智能在教育中的应用研究"></textarea>
+                        <div class="mt-2 flex gap-2">
+                            <button id="parseBulkBtn" class="bg-primary text-white px-3 py-1 rounded-lg btn-effect">解析并填充</button>
+                            <button id="clearBulkBtn" class="bg-white border px-3 py-1 rounded-lg">清空</button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">支持换行 / 逗号 / 分号 / 斜线 / 空格分隔；若包含学历关键词（本科/硕士/博士）会自动识别。</p>
                     </div>
                 </div>
             </div>
@@ -151,7 +170,7 @@
                                 <i class="fa fa-ban text-primary mr-1"></i>去AI味
                             </button>
                         </div>
-                        <pre id="frameworkPrompt" class="text-sm whitespace-pre-line">提示词</pre>
+                        <pre id="frameworkPrompt" class="text-sm whitespace-pre-line">大模型分析框架提示词</pre>
                     </div>
 
                     <div class="flex justify-end">
@@ -164,7 +183,7 @@
                 <!-- 研究背景部分 -->
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold mb-4 flex items-center">
-                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2">1</span>
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
                         研究背景
                     </h3>
                     
@@ -180,11 +199,32 @@
                                 <i class="fa fa-ban text-primary mr-1"></i>去AI味
                             </button>
                         </div>
-                        <pre id="backgroundPrompt" class="text-sm whitespace-pre-line">提示词</p>
+                        <pre id="backgroundPrompt" class="text-sm whitespace-pre-line">研究背景提示词</pre>
                     </div>
 
                     <div class="flex justify-end">
                         <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="backgroundPrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                    
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background1">
+                                <i class="fa fa-check-circle text-primary mr-1"></i>学术化
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="background1">
+                                <i class="fa fa-clock-o text-primary mr-1"></i>时效性
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="background1">
+                                <i class="fa fa-ban text-primary mr-1"></i>去AI味
+                            </button>
+                        </div>
+                        <pre id="background1Prompt" class="text-sm whitespace-pre-line">研究背景提示词1</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="background1Prompt">
                             <i class="fa fa-copy mr-2"></i>复制
                         </button>
                     </div>
@@ -193,13 +233,13 @@
                 <!-- 研究意义部分 -->
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold mb-4 flex items-center">
-                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2">2</span>
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
                         研究意义
                     </h3>
 
                     <div class="mb-4">
                         <label for="chapterTitle" class="block text-sm font-medium text-gray-700 mb-1">请输入章节题目</label>
-                        <input type="text" id="chapterTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：人工智能教育应用的价值与挑战">
+                        <input type="text" id="chapterTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：绪论">
                     </div>
 
                     <div class="bg-neutral p-4 rounded-lg mb-4 relative">
@@ -214,7 +254,7 @@
                                 <i class="fa fa-file-text-o text-primary mr-1"></i>加案例
                             </button>
                         </div>
-                        <pre id="significancePrompt" class="text-sm whitespace-pre-line">提示词</p>
+                        <pre id="significancePrompt" class="text-sm whitespace-pre-line">研究意义提示词</pre>
                     </div>
                     
                     <div class="flex justify-end">
@@ -243,7 +283,7 @@
                                 <i class="fa fa-check-square-o text-primary mr-1"></i>可衡量
                             </button>
                         </div>
-                        <pre id="objectivesPrompt" class="text-sm whitespace-pre-line">提示词</p>
+                        <pre id="objectivesPrompt" class="text-sm whitespace-pre-line">研究目标提示词</pre>
                     </div>
                     
                     <div class="flex justify-end">
@@ -348,6 +388,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 获取DOM元素
             const majorInput = document.getElementById('major');
+            const educationInput = document.getElementById('education');
             const researchTopicInput = document.getElementById('researchTopic');
             const chapterTitleInput = document.getElementById('chapterTitle');
             const promptButtons = document.querySelectorAll('.prompt-btn');
@@ -359,6 +400,86 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileMenuContent = document.getElementById('mobileMenuContent');
             const closeMenu = document.getElementById('closeMenu');
+
+            // 新增：批量输入解析相关元素
+            const bulkInput = document.getElementById('bulkInput');
+            const parseBulkBtn = document.getElementById('parseBulkBtn');
+            const clearBulkBtn = document.getElementById('clearBulkBtn');
+
+            // 解析函数：返回 {major, education, topic}
+            function parseBulkText(text) {
+                if (!text) return { major: '', education: '', topic: '' };
+                text = text.trim();
+
+                // 优先按换行分割（每行一个项）
+                let parts = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+                if (parts.length >= 3) {
+                    return { major: parts[0], education: parts[1], topic: parts.slice(2).join(' ') };
+                }
+
+                // 按逗号、分号、斜线、竖线分割
+                parts = text.split(/[，,；;\/\|]+/).map(s => s.trim()).filter(Boolean);
+                if (parts.length >= 3) {
+                    return { major: parts[0], education: parts[1], topic: parts.slice(2).join(' ') };
+                }
+
+                // 搜索学历关键词
+                const degreeRegex = /(本科生?|本科|硕士(生?)?|博士(生?)?|博士后|学士|研究生)/i;
+                const degreeMatch = text.match(degreeRegex);
+                if (degreeMatch) {
+                    const education = degreeMatch[0];
+                    // 移除学历词
+                    let remaining = text.replace(degreeRegex, ' ').replace(/[，,；;\/\|]+/g, ' ').trim();
+                    // 再按空格或其他分隔符分割剩余内容
+                    let remParts = remaining.split(/\s+/).map(s => s.trim()).filter(Boolean);
+                    if (remParts.length >= 2) {
+                        // 第一个视为专业，剩余为主题
+                        return { major: remParts[0], education: education, topic: remParts.slice(1).join(' ') };
+                    } else {
+                        // 若只剩一项，则作为专业
+                        return { major: remaining, education: education, topic: '' };
+                    }
+                }
+
+                // 最后尝试按空格分隔：若>=3项，前两项视为专业和学历，其余为题目；若2项，视为专业+主题
+                parts = text.split(/\s+/).map(s => s.trim()).filter(Boolean);
+                if (parts.length >= 3) {
+                    return { major: parts[0], education: parts[1], topic: parts.slice(2).join(' ') };
+                } else if (parts.length === 2) {
+                    return { major: parts[0], education: '', topic: parts[1] };
+                }
+
+                // 兜底：把整个文本放到研究主题
+                return { major: '', education: '', topic: text };
+            }
+
+            // 点击解析并填充
+            if (parseBulkBtn) {
+                parseBulkBtn.addEventListener('click', function() {
+                    const text = bulkInput.value || '';
+                    const parsed = parseBulkText(text);
+
+                    if (parsed.major) majorInput.value = parsed.major;
+                    if (parsed.education) educationInput.value = parsed.education;
+                    if (parsed.topic) researchTopicInput.value = parsed.topic;
+
+                    // 触发现有更新逻辑
+                    updateAllPrompts();
+
+                    // 可视反馈：短暂高亮输入框
+                    [majorInput, educationInput, researchTopicInput].forEach(el => {
+                        el.classList.add('ring', 'ring-green-300');
+                        setTimeout(() => el.classList.remove('ring', 'ring-green-300'), 1200);
+                    });
+                });
+            }
+
+            // 清空批量输入
+            if (clearBulkBtn) {
+                clearBulkBtn.addEventListener('click', function() {
+                    if (bulkInput) bulkInput.value = '';
+                });
+            }
 
             const copySectionTitleBtn = document.getElementById('copySectionTitleBtn');
             if (copySectionTitleBtn) {
@@ -379,14 +500,16 @@
             const activePrompts = {
                 framework: [],
                 background: [],
+                background1: [],
                 significance: [],
                 objectives: []
             };
             
             // 基础提示词模板
             const basePrompts = {
-                framework: '我是一名【{major}】专业的本科/硕士生，即将毕业，我的研究主题是《{topic}》，现在正在写开题报告部分。\n\n请你扮演我的导师，对于我研究的主题学术造诣非常的深。\n\n这是我的开题大纲，你先阅读并且掌握一下\n【\n 一、问题的提出及背景 （不少于 3000 字，可加页） （一） 研究背景 （二）研究意义 （三）国内外研究现状     1.国内研究现状     2.国外研究现状     3.文献述评     4.参考文献（参考文献尽量不要用硕博论文，尽量用高质量的期刊；特别要注意期刊质量以及文章的新颖性）  二、解决问题的思路及方案 （一）研究目标（研究目标简化，还可以条理化，目标 2～3 个就可以了） （二） 研究内容 （三）论文提纲 （四）研究方法 （五）技术路线图（先语言描述研究思路，大致 500 字，然后才是路线图）  三、前期基础 （一）研究基础 参考模板： 1.完成了大部分的理论课程学习，具有了一定的理论基础。研一完成必修课程学习，均取得优良成绩。  2.大量阅读......相关文献，现已完成......研究的文献综述写作。 3.2024 年 9 月参加学校组织的量化研究方法班，初步学习了 Stata15.0 软件的基本操作，为本论文中需要用到的实证方法打下基础。 （二）研究过程中可能遇到的困难和问题  四、预期结果及目标 （一）预期结果 精简一段话就可以，研究过程结果以及完成一篇优秀的硕士论文 （二）进度计划安排 2024 年 9 月 -10 月：XXXXXX 2024 年 11 月 -12 月：XXXXXX 2025 年 1 月 -3 月：XXXXXX 2025 年 4 月 -5 月：XXXXXX 2025 年 6 月 -10 月：XXXXXX 2025 年 11 月 -2026 年 3 月：XXXXXX 2026 年 4 月 -2026 年 6 月：XXXXXX      \n】',
+                framework: '我是一名【{major}】专业的【{education}】生，即将毕业，我的研究主题是《{topic}》，现在正在写开题报告部分。\n\n请你扮演我的导师，对于我研究的主题学术造诣非常的深。\n\n这是我的开题大纲，你先阅读并且掌握一下\n【\n 一、问题的提出及背景 （不少于 3000 字，可加页） （一） 研究背景 （二）研究意义 （三）国内外研究现状     1.国内研究现状     2.国外研究现状     3.文献述评     4.参考文献（参考文献尽量不要用硕博论文，尽量用高质量的期刊；特别要注意期刊质量以及文章的新颖性）  二、解决问题的思路及方案 （一）研究目标（研究目标简化，还可以条理化，目标 2～3 个就可以了） （二） 研究内容 （三）论文提纲 （四）研究方法 （五）技术路线图（先语言描述研究思路，大致 500 字，然后才是路线图）  三、前期基础 （一）研究基础 参考模板： 1.完成了大部分的理论课程学习，具有了一定的理论基础。研一完成必修课程学习，均取得优良成绩。  2.大量阅读......相关文献，现已完成......研究的文献综述写作。 3.2024 年 9 月参加学校组织的量化研究方法班，初步学习了 Stata15.0 软件的基本操作，为本论文中需要用到的实证方法打下基础。 （二）研究过程中可能遇到的困难和问题  四、预期结果及目标 （一）预期结果 精简一段话就可以，研究过程结果以及完成一篇优秀的硕士论文 （二）进度计划安排 2024 年 9 月 -10 月：XXXXXX 2024 年 11 月 -12 月：XXXXXX 2025 年 1 月 -3 月：XXXXXX 2025 年 4 月 -5 月：XXXXXX 2025 年 6 月 -10 月：XXXXXX 2025 年 11 月 -2026 年 3 月：XXXXXX 2026 年 4 月 -2026 年 6 月：XXXXXX      \n】',
                 background: '帮我搜索一下和我主题相关的政策和事实，【{topic}】；我准备放到研究背景中，作为论证补充；',
+                background1: '很好，根据上述搜索的结果，我们来写第一章【问题的提出及背景】的第1节【研究背景】  使用学术语言，用文本段的形式回答我；\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；  注意上下文逻辑；',
                 significance: '很好，根据上述你搜索的结果，我们来写第一章【{chapter}】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】\n使用学术语言，用文本段的形式回答我；\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；\n注意上下文逻辑；',
                 objectives: '请基于【{major}】专业的【{topic}】研究主题，制定2-3个简洁、条理化的研究目标，确保目标具有明确性和可实现性；'
             };
@@ -394,6 +517,7 @@
             // 更新提示词函数
             function updateAllPrompts() {
                 const major = majorInput.value.trim() || '请先输入专业';
+                const education = educationInput.value.trim() || '请先输入学历';
                 const topic = researchTopicInput.value.trim() || '请先输入研究主题';
                 const chapter = chapterTitleInput.value.trim() || '请输入章节题目';
                 
@@ -405,6 +529,7 @@
                     // 替换模板变量
                     let basePrompt = basePrompts[group]
                         .replace('{major}', major)
+                        .replace('{education}', education)
                         .replace('{topic}', topic)
                         .replace('{chapter}', chapter);
                     
@@ -420,7 +545,10 @@
             
             // 监听专业输入变化
             majorInput.addEventListener('input', updateAllPrompts);
-            
+
+            // 监听学历输入变化
+            educationInput.addEventListener('input', updateAllPrompts);
+
             // 监听研究主题输入变化
             researchTopicInput.addEventListener('input', updateAllPrompts);
             
@@ -477,6 +605,33 @@
                     });
                 });
             });
+
+            // 自动为H3标题添加序号的函数
+            function autoNumberH3Headings() {
+                // 获取所有section中的H3元素
+                const sections = document.querySelectorAll('section');
+                
+                sections.forEach(section => {
+                    // 获取当前section下的所有H3元素
+                    const h3Headings = section.querySelectorAll('h3');
+                    
+                    // 为每个H3设置序号
+                    h3Headings.forEach((heading, index) => {
+                        // 找到序号显示元素（圆形数字标记）
+                        const numberElement = heading.querySelector('span[class*="rounded-full"]');
+                        if (numberElement) {
+                            // 设置序号
+                            numberElement.textContent = index + 1;
+                        }
+                    });
+                });
+            }
+            
+            // 初始执行一次
+            autoNumberH3Headings();
+            
+            // 如果未来有动态添加H3的需求，可以再次调用该函数
+            // 例如: 在添加新的H3元素后调用 autoNumberH3Headings();
             
             // 导航项点击事件 - 桌面端
             navItems.forEach(item => {
@@ -558,6 +713,64 @@
             
             // 初始化所有提示词
             updateAllPrompts();
+
+            const subNavContainer = document.getElementById('subNavContainer');
+            const sectionMap = {}; // 存储section与其h3的映射
+            let subNavVisible = true; // 子导航初始为显示
+
+            // 自动生成子导航
+            function generateSubNav(sectionId) {
+                subNavContainer.innerHTML = '';
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+                const h3s = section.querySelectorAll('h3');
+                if (h3s.length === 0) return;
+                h3s.forEach((h3, idx) => {
+                    // 给每个h3加唯一id
+                    if (!h3.id) h3.id = `${sectionId}-h3-${idx+1}`;
+                    const text = h3.textContent.trim();
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#${h3.id}" class="sub-nav-item flex items-center px-8 py-2 text-xs text-gray-500 hover:text-primary hover:bg-gray-100 rounded transition-all duration-200">${text}</a>`;
+                    subNavContainer.appendChild(li);
+                });
+            }
+
+            // 展开/折叠子导航（目前是点到哪个就显示子导航栏，先这样吧）
+            function toggleSubNav() {
+                subNavVisible = !subNavVisible;
+                if (subNavVisible) {
+                    subNavContainer.style.display = '';
+                } else {
+                    subNavContainer.style.display = 'none';
+                }
+            }
+
+            // 监听主导航点击，切换子导航
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // 获取section id
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const sectionId = href.substring(1);
+                        generateSubNav(sectionId);
+                    }
+                });
+            });
+
+            // 初始显示第一个section的子导航
+            generateSubNav('开题报告');
+
+            // 子导航点击滚动
+            subNavContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('sub-nav-item')) {
+                    e.preventDefault();
+                    const targetId = e.target.getAttribute('href').substring(1);
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        target.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    }
+                }
+            });
         });
     </script>
 </body>
