@@ -293,7 +293,31 @@
                     </div>
                 </div>
             </section>
-            
+
+            <!-- 研究内容部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        研究内容
+                    </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="ResearchContent">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ResearchContentPrompt" class="text-sm whitespace-pre-line">研究内容提示词</pre>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ResearchContentPrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+            </section>
+
             <!-- 文献综述部分 (占位符) -->
             <section id="文献综述" class="mb-12 bg-white rounded-xl p-6 card-shadow opacity-70">
                 <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">文献综述</h2>
@@ -411,46 +435,61 @@
                 if (!text) return { major: '', education: '', topic: '' };
                 text = text.trim();
 
-                // 优先按换行分割（每行一个项）
-                let parts = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-                if (parts.length >= 3) {
-                    return { major: parts[0], education: parts[1], topic: parts.slice(2).join(' ') };
-                }
+                // 统一分隔符为单空格，去除多余空格
+                let normalized = text.replace(/[\r\n,，;；\/\|]+/g, ' ').replace(/\s+/g, ' ').trim();
+                if (!normalized) return { major: '', education: '', topic: '' };
 
-                // 按逗号、分号、斜线、竖线分割
-                parts = text.split(/[，,；;\/\|]+/).map(s => s.trim()).filter(Boolean);
-                if (parts.length >= 3) {
-                    return { major: parts[0], education: parts[1], topic: parts.slice(2).join(' ') };
-                }
+                // 切分为 tokens（按空格）
+                const tokens = normalized.split(' ').filter(Boolean);
 
-                // 搜索学历关键词
-                const degreeRegex = /(本科生?|本科|硕士(生?)?|博士(生?)?|博士后|学士|研究生)/i;
-                const degreeMatch = text.match(degreeRegex);
-                if (degreeMatch) {
-                    const education = degreeMatch[0];
-                    // 移除学历词
-                    let remaining = text.replace(degreeRegex, ' ').replace(/[，,；;\/\|]+/g, ' ').trim();
-                    // 再按空格或其他分隔符分割剩余内容
-                    let remParts = remaining.split(/\s+/).map(s => s.trim()).filter(Boolean);
-                    if (remParts.length >= 2) {
-                        // 第一个视为专业，剩余为主题
-                        return { major: remParts[0], education: education, topic: remParts.slice(1).join(' ') };
-                    } else {
-                        // 若只剩一项，则作为专业
-                        return { major: remaining, education: education, topic: '' };
+                // 学历关键词（优先按 token 精确匹配）
+                const degreeTokenRegex = /^(专科|函授|本科生?|本科|硕士(生?)?|博士(生?)?|博士后|学士|研究生)$/i;
+
+                // 尝试在 tokens 中找到学历（精确 token）
+                let degreeIndex = -1;
+                for (let i = 0; i < tokens.length; i++) {
+                    if (degreeTokenRegex.test(tokens[i])) {
+                        degreeIndex = i;
+                        break;
                     }
                 }
 
-                // 最后尝试按空格分隔：若>=3项，前两项视为专业和学历，其余为题目；若2项，视为专业+主题
-                parts = text.split(/\s+/).map(s => s.trim()).filter(Boolean);
-                if (parts.length >= 3) {
-                    return { major: parts[0], education: parts[1], topic: parts.slice(2).join(' ') };
-                } else if (parts.length === 2) {
-                    return { major: parts[0], education: '', topic: parts[1] };
+                if (degreeIndex !== -1) {
+                    const education = tokens[degreeIndex];
+                    const rem = tokens.slice(0, degreeIndex).concat(tokens.slice(degreeIndex + 1));
+                    if (rem.length >= 2) {
+                        return { major: rem[0], education: education, topic: rem.slice(1).join(' ') };
+                    } else if (rem.length === 1) {
+                        return { major: rem[0], education: education, topic: '' };
+                    } else {
+                        return { major: '', education: education, topic: '' };
+                    }
                 }
 
-                // 兜底：把整个文本放到研究主题
-                return { major: '', education: '', topic: text };
+                // 如果没有 token 精确匹配，再做子串匹配（处理“计算机硕士”之类情况）
+                const degreeSubMatch = normalized.match(/(本科生?|本科|硕士(生?)?|博士(生?)?|博士后|学士|研究生)/i);
+                if (degreeSubMatch) {
+                    const education = degreeSubMatch[0];
+                    const remaining = normalized.replace(degreeSubMatch[0], ' ').replace(/\s+/g, ' ').trim();
+                    const remTokens = remaining.split(' ').filter(Boolean);
+                    if (remTokens.length >= 2) {
+                        return { major: remTokens[0], education: education, topic: remTokens.slice(1).join(' ') };
+                    } else if (remTokens.length === 1) {
+                        return { major: remTokens[0], education: education, topic: '' };
+                    } else {
+                        return { major: '', education: education, topic: '' };
+                    }
+                }
+
+                // 回退策略：token 数量 >=3 -> major, education, topic；2 个 token -> major + topic
+                if (tokens.length >= 3) {
+                    return { major: tokens[0], education: tokens[1], topic: tokens.slice(2).join(' ') };
+                } else if (tokens.length === 2) {
+                    return { major: tokens[0], education: '', topic: tokens[1] };
+                }
+
+                // 兜底：全部视为研究主题
+                return { major: '', education: '', topic: normalized };
             }
 
             // 点击解析并填充
@@ -511,7 +550,7 @@
                 background: '帮我搜索一下和我主题相关的政策和事实，【{topic}】；我准备放到研究背景中，作为论证补充；',
                 background1: '很好，根据上述搜索的结果，我们来写第一章【问题的提出及背景】的第1节【研究背景】  使用学术语言，用文本段的形式回答我；\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；  注意上下文逻辑；',
                 significance: '很好，根据上述你搜索的结果，我们来写第一章【{chapter}】中的第2节【研究意义】，从两个方面阐述【理论意义】和【实践意义】\n使用学术语言，用文本段的形式回答我；\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；\n注意上下文逻辑；',
-                objectives: '请基于【{major}】专业的【{topic}】研究主题，制定2-3个简洁、条理化的研究目标，确保目标具有明确性和可实现性；'
+                objectives: '很好，根据上述搜索的结果，我们来写第二章【解决问题的思路及方案 】的第1节【研究目标（研究目标简化，还可以条理化，目标 2～3 个就可以了） 】  使用学术语言，用文本段的形式回答我；\n\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；  注意上下文逻辑；'
             };
             
             // 更新提示词函数
