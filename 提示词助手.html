@@ -146,6 +146,22 @@
                     </div>
                 </div>
             </div>
+            <!-- 阅读文档部分 -->
+            <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="readWordDoc">
+                        <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                    </button>
+                </div>
+                <pre id="readWordDocPrompt" class="text-sm whitespace-pre-line">阅读文档提示词</pre>
+            </div>
+
+            <div class="flex justify-end">
+                <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="readWordDocPrompt">
+                    <i class="fa fa-copy mr-2"></i>复制
+                </button>
+            </div>
+
             
             <!-- 开题报告部分 -->
                 <!-- 提示词完善：
@@ -538,7 +554,14 @@
                 
                     <br/>
                     <div class="bg-neutral p-4 rounded-lg mb-4 relative">
-                        <p>交叉引用</p>
+                        <p>交叉引用
+                            <button id="btnCopyTechRoadmap" class="ml-3 text-primary hover:text-blue-700 text-base" title="技术路线图如所示。">
+                                    <i class="fa fa-copy">技术路线图如所示。</i>
+                            </button>
+                            <button id="btnCopySpecific" class="ml-3 text-primary hover:text-blue-700 text-base" title="具体如所示。">
+                                    <i class="fa fa-copy">具体如所示。</i>
+                            </button>
+                        </p>
                     </div>
 
 
@@ -556,6 +579,9 @@
                 <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">文献综述</h2>
                 <button id="copyReferenceBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="参考文献">
                         <i class="fa fa-copy">参考文献</i>
+                </button>
+                <button id="copyDomesticSearchBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="国内-查新">
+                        <i class="fa fa-copy">国内-查新</i>
                 </button>
 
                 <!-- 确定关键词部分 -->
@@ -576,27 +602,520 @@
 
                     <div class="flex justify-end">
                         <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ResearchKeywordsPrompt">
+                            <i class="fa fa-copy mr-2"></i>确定关键词
+                        </button>
+                    </div>
+                </div>
+                
+                <br/>
+                <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                    <p>!!找文献</p>
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>硕论： 先分好主题，再分主题找对应的国内外文献
+                    </span>
+                </div>
+
+                <!-- 国内研究现状（知网）部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        国内研究现状（知网）
+                    </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="国内研究现状（知网）" data-group="DomesticResearchStatus">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="DomesticResearchStatusPrompt" class="text-sm whitespace-pre-line">国内研究现状（知网）提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="DomesticResearchStatusPrompt">
+                            <i class="fa fa-copy mr-2"></i>国内研究现状（本科）
+                        </button>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="subSectionTitle" class="block text-sm font-medium text-gray-700 mb-1">请输入小节题目</label>
+                        <input type="text" id="subSectionTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：关于XX的研究">
+                    </div>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="国内研究现状（知网）" data-group="DomesticResearchStatus1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="DomesticResearchStatus1Prompt" class="text-sm whitespace-pre-line">国内研究现状（知网）提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="DomesticResearchStatus1Prompt">
+                            <i class="fa fa-copy mr-2"></i>国内研究现状（硕士）
+                        </button>
+                    </div>
+
+
+                    <button id="copyDomesticResearchStatusBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="国内研究现状">
+                            <i class="fa fa-copy">国内研究现状</i>
+                    </button>
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>删除每段最后的总结语句
+                    </span>
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="国内研究现状（知网）" data-group="DomesticResearchStatus2">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="DomesticResearchStatus2Prompt" class="text-sm whitespace-pre-line">国内研究现状（知网）提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="DomesticResearchStatus2Prompt">
+                            <i class="fa fa-copy mr-2"></i>国内研究现状
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 国外（谷歌学术）部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        国外研究现状
+                    </h3>
+                    <button id="copyForeignResearchStatusBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="国外研究现状">
+                            <i class="fa fa-copy">国外研究现状</i>
+                    </button>
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="" data-group="ForeignResearchStatus">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ForeignResearchStatusPrompt" class="text-sm whitespace-pre-line">国外研究现状提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ForeignResearchStatusPrompt">
+                            <i class="fa fa-copy mr-2"></i>国外研究现状（本科）
+                        </button>
+                    </div>
+                    <div class="mb-4">
+                        <label for="subSectionTitle1" class="block text-sm font-medium text-gray-700 mb-1">请输入小节题目</label>
+                        <input type="text" id="subSectionTitle1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：关于XX的研究">
+                    </div>
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="" data-group="ForeignResearchStatus1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ForeignResearchStatus1Prompt" class="text-sm whitespace-pre-line">国外研究现状提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ForeignResearchStatus1Prompt">
+                            <i class="fa fa-copy mr-2"></i>国外研究现状（硕士）
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 国外研究现状-润色版部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        国外研究现状-润色版
+                    </h3>
+                    <button id="copyForeignResearchStatusRevisedBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="国外研究现状-润色版">
+                            <i class="fa fa-copy">国外研究现状-润色版</i>
+                    </button>
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>删除每段最后的总结语句
+                    </span>
+                    <!-- 本科 -->
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="" data-group="ForeignResearchStatusRevised">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ForeignResearchStatusRevisedPrompt" class="text-sm whitespace-pre-line">国外研究现状-润色版提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ForeignResearchStatusRevisedPrompt">
+                            <i class="fa fa-copy mr-2"></i>国外研究现状-润色版（本科）
+                        </button>
+                    </div>
+
+                    <!-- 硕士 -->
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>几个文档，[几百字]容易忘记改
+                    </span>
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="" data-group="ForeignResearchStatusRevised1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ForeignResearchStatusRevised1Prompt" class="text-sm whitespace-pre-line">国外研究现状-润色版提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ForeignResearchStatusRevised1Prompt">
+                            <i class="fa fa-copy mr-2"></i>国外研究现状-润色版（硕士）
+                        </button>
+                    </div>
+
+                    <!-- 硕论小节总结 -->
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="" data-group="ForeignResearchStatusRevised2">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ForeignResearchStatusRevised2Prompt" class="text-sm whitespace-pre-line">硕论小节总结提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ForeignResearchStatusRevised2Prompt">
+                            <i class="fa fa-copy mr-2"></i>硕论小节总结
+                        </button>
+                    </div>
+                </div>
+                <!-- 文献评述部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        文献评述
+                    </h3>
+                    <button id="copyLiteratureReviewBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="文献评述">
+                        <i class="fa fa-copy">文献评述</i>
+                    </button>
+                    <button id="copyDomesticAndForeignResearchStatusBtn" class="ml-3 text-primary hover:text-blue-700 text-base" title="国内外研究现状">
+                        <i class="fa fa-copy">国内外研究现状</i>
+                    </button>
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="" data-group="LiteratureReview">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="LiteratureReviewPrompt" class="text-sm whitespace-pre-line">文献评述提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">      
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="LiteratureReviewPrompt">
                             <i class="fa fa-copy mr-2"></i>复制
                         </button>
                     </div>
                 </div>
 
+
                 <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
                 <!-- 这里将由用户后续补充完整 -->
             </section>
+
+                <!-- 部分 -->
             
             <!-- 正文部分 (占位符) -->
             <section id="正文" class="mb-12 bg-white rounded-xl p-6 card-shadow">
                 <h2 class="text-2xl font-bold mb-6 pb-3 border-b border-gray-100">正文</h2>
+                <!-- 永久显示的提示文本 -->
+                <span class="ml-3 text-sm text-gray-500">
+                    <i class="fa fa-info-circle mr-1"></i>一定要用word
+                </span>
+                <!-- 永久显示的提示文本 -->
+                <span class="ml-3 text-sm text-gray-500">
+                    <i class="fa fa-info-circle mr-1"></i>文献综述，参考文献先别放进去
+                </span>
 
                 <!-- 正文部分 -->
+                <!-- 阅读大纲 -->
                 <div class="mt-8">
                     <h3 class="text-lg font-semibold mb-4 flex items-center">
                         <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
-                        正文
+                        先让大模型阅读一下大纲
                     </h3>
+                    <div>
+                        <label for="outline" class="block text-sm font-medium text-gray-700 mb-1">请输入大纲</label>
+                        <input type="text" id="outline" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all" placeholder="例如：第一章 绪论">
+                    </div>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="OutlineReading">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="OutlineReadingPrompt" class="text-sm whitespace-pre-line">阅读大纲提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="OutlineReadingPrompt">
+                            <i class="fa fa-copy mr-2"></i>阅读大纲
+                        </button>
+                    </div>
                 </div>
-                <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
+                <!-- 研究背景 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        研究背景
+                    </h3>
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>如果第一章题目是引言就直接删除【绪论】
+                    </span>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="BackgroundReading">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="BackgroundReadingPrompt" class="text-sm whitespace-pre-line">研究背景提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="BackgroundReadingPrompt">
+                            <i class="fa fa-copy mr-2"></i>研究背景
+                        </button>
+                    </div>
+                    
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background2">
+                                <i class="fa fa-check-circle text-primary mr-1"></i>学术化
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="background2">
+                                <i class="fa fa-clock-o text-primary mr-1"></i>时效性
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="background2">
+                                <i class="fa fa-ban text-primary mr-1"></i>去AI味
+                            </button>
+                        </div>
+                        <pre id="background2Prompt" class="text-sm whitespace-pre-line">研究背景提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="background2Prompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                    
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用学术化语言，避免口语表达" data-group="background3">
+                                <i class="fa fa-check-circle text-primary mr-1"></i>学术化
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请确保内容具有时效性，引用近3年的研究成果" data-group="background3">
+                                <i class="fa fa-clock-o text-primary mr-1"></i>时效性
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="记住，不要有AI味" data-group="background3">
+                                <i class="fa fa-ban text-primary mr-1"></i>去AI味
+                            </button>
+                        </div>
+                        <pre id="background3Prompt" class="text-sm whitespace-pre-line">研究背景提示词3</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="background3Prompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+                <!-- 研究意义部分 -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        研究意义
+                    </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="significance1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请使用3级标题组织内容" data-group="significance1">
+                                <i class="fa fa-header text-primary mr-1"></i>3级标题
+                            </button>
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请增加案例支持论点" data-group="significance1">
+                                <i class="fa fa-file-text-o text-primary mr-1"></i>加案例
+                            </button>
+                        </div>
+                        <pre id="significance1Prompt" class="text-sm whitespace-pre-line">研究意义提示词</pre>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="significance1Prompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 研究内容部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        研究内容
+                    </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="ResearchContent1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ResearchContent1Prompt" class="text-sm whitespace-pre-line">研究内容提示词</pre>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ResearchContent1Prompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 研究方法部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        研究方法
+                    </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="ResearchMethods1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ResearchMethods1Prompt" class="text-sm whitespace-pre-line">研究方法提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ResearchMethods1Prompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+                <!-- 技术路线图部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        技术路线图
+                    </h3>
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>直接看开题报告的技术路线图步骤
+                    </span>
+
+                </div>
+                <br />
+                <!-- 剩余章节部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        剩余章节
+                    </h3>
+
+                    <!-- 剩余章节部分 -->
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="RemainingSections">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="RemainingSectionsPrompt" class="text-sm whitespace-pre-line">剩余章节提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="RemainingSectionsPrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+                <!-- 结论部分 -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        结论
+                    </h3>
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="Conclusion">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="ConclusionPrompt" class="text-sm whitespace-pre-line">结论提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="ConclusionPrompt">
+                            <i class="fa fa-copy mr-2"></i>复制
+                        </button>
+                    </div>
+                </div>
+                <!-- 致谢部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        致谢
+                    </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="thanks">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="thanksPrompt" class="text-sm whitespace-pre-line">致谢提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="thanksPrompt">
+                            <i class="fa fa-copy mr-2"></i>致谢关键词
+                        </button>
+                    </div>
+                </div>
+                <!-- 摘要部分 -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
+                        摘要
+                    </h3>
+                    <!-- 永久显示的提示文本 -->
+                    <span class="ml-3 text-sm text-gray-500">
+                        <i class="fa fa-info-circle mr-1"></i>先不上传文档
+                    </span>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="abstract">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="abstractPrompt" class="text-sm whitespace-pre-line">摘要提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="abstractPrompt">
+                            <i class="fa fa-copy mr-2"></i>摘要关键词
+                        </button>
+                    </div>
+                    
+
+                </div>
+
+
+                <!-- <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p> -->
                 <!-- 这里将由用户后续补充完整 -->
             </section>
             
@@ -610,6 +1129,36 @@
                         <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
                         论文修改
                     </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="modify">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="modifyPrompt" class="text-sm whitespace-pre-line">论文修改提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="modifyPrompt">
+                            <i class="fa fa-copy mr-2"></i>关键词
+                        </button>
+                    </div>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="modify1">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="modify1Prompt" class="text-sm whitespace-pre-line">论文修改提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="modify1Prompt">
+                            <i class="fa fa-copy mr-2"></i>关键词
+                        </button>
+                    </div>
                 </div>
                 <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
                 <!-- 这里将由用户后续补充完整 -->
@@ -625,6 +1174,39 @@
                         <span class="inline-block w-6 h-6 rounded-full bg-primary text-white text-sm flex items-center justify-center mr-2"></span>
                         问卷实证
                     </h3>
+
+                    <div class="bg-neutral p-4 rounded-lg mb-4 relative">
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button class="prompt-btn bg-white text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50 btn-effect" data-prompt="请分点阐述，但不要使用数字序号" data-group="QuestionnaireEmpirical">
+                                <i class="fa fa-list text-primary mr-1"></i>分点阐述
+                            </button>
+                        </div>
+                        <pre id="QuestionnaireEmpiricalPrompt" class="text-sm whitespace-pre-line">问卷实证提示词</pre>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="copy-btn bg-primary text-white px-4 py-2 rounded-lg flex items-center btn-effect" data-target="QuestionnaireEmpiricalPrompt">
+                            <i class="fa fa-copy mr-2"></i>问卷实证
+                        </button>
+                    </div>
+                    <button id="QuestionnaireEmpiricalButton" class="ml-3 text-primary hover:text-blue-700 text-base" title="你先阅读并且理解一下我给你的文档。看看需要如何设计问卷问题合适，请用中文输出">
+                            <i class="fa fa-copy"></i>你先阅读并且理解一下我给你的文档。看看需要如何设计问卷问题合适，请用中文输出
+                    </button>
+                    <button id="QuestionnaireEmpiricalScaleButton" class="ml-3 text-primary hover:text-blue-700 text-base" title="不要有其他这个选项，量表题用abcd来表示，每个题直接把5个选项写在下面">
+                            <i class="fa fa-copy"></i>不要有其他这个选项，量表题用abcd来表示，每个题直接把5个选项写在下面
+                    </button>
+                    <button id="QuestionnaireEmpiricalExportButton" class="ml-3 text-primary hover:text-blue-700 text-base" title="导出 .docx 问卷文件，并为该量表建立 Excel 表头模板">
+                            <i class="fa fa-copy"></i>导出 .docx 问卷文件，并为该量表建立 Excel 表头模板
+                    </button>
+                    <button id="QuestionnaireEmpiricalAnalysisButton" class="ml-3 text-primary hover:text-blue-700 text-base" title="我的数据已经分析好了，现在请你根据你设计的问卷以及我分析的结果写一个200字的文字描述">
+                            <i class="fa fa-copy"></i>我的数据已经分析好了，现在请你根据你设计的问卷以及我分析的结果写一个200字的文字描述
+                    </button>
+                    <button id="QuestionnaireEmpiricalVariableButton" class="ml-3 text-primary hover:text-blue-700 text-base" title="变量说明表">
+                            <i class="fa fa-copy"></i>变量说明表
+                    </button>
+                    <button id="QuestionnaireEmpiricalTableButton" class="ml-3 text-primary hover:text-blue-700 text-base" title="请你根据我的调查问卷的问题，完善一下我图片中的表格，需要对应每一个问题和变量">
+                            <i class="fa fa-copy"></i>请你根据我的调查问卷的问题，完善一下我图片中的表格，需要对应每一个问题和变量
+                    </button>
                 </div>
                 <p class="text-gray-500">请在左侧导航选择此项以编辑内容</p>
                 <!-- 这里将由用户后续补充完整 -->
@@ -702,6 +1284,9 @@
             const educationInput = document.getElementById('education');
             const researchTopicInput = document.getElementById('researchTopic');
             const chapterTitleInput = document.getElementById('chapterTitle');
+            const subSectionTitleInput = document.getElementById('subSectionTitle');
+            const subSectionTitle1Input = document.getElementById('subSectionTitle1');
+            const outlineInput = document.getElementById('outline');
             const promptButtons = document.querySelectorAll('.prompt-btn');
             const copyButtons = document.querySelectorAll('.copy-btn');
             const copyToast = document.getElementById('copyToast');
@@ -864,6 +1449,132 @@
                     });
                 });
             }
+            const btnCopyTechRoadmap = document.getElementById('btnCopyTechRoadmap');
+            if (btnCopyTechRoadmap) {
+                btnCopyTechRoadmap.addEventListener('click', function() {
+                    navigator.clipboard.writeText('技术路线图如所示。').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const btnCopySpecific = document.getElementById('btnCopySpecific');
+            if (btnCopySpecific) {
+                btnCopySpecific.addEventListener('click', function() {
+                    navigator.clipboard.writeText('具体如所示。').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyReferenceBtn = document.getElementById('copyReferenceBtn');
+            if (copyReferenceBtn) {
+                copyReferenceBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('参考文献').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyDomesticSearchBtn = document.getElementById('copyDomesticSearchBtn');
+            if (copyDomesticSearchBtn) {
+                copyDomesticSearchBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('国内-查新').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyDomesticResearchStatusBtn = document.getElementById('copyDomesticResearchStatusBtn');
+            if (copyDomesticResearchStatusBtn) {
+                copyDomesticResearchStatusBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('国内研究现状 ').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyForeignResearchStatusBtn = document.getElementById('copyForeignResearchStatusBtn');
+            if (copyForeignResearchStatusBtn) {
+                copyForeignResearchStatusBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('国外研究现状 ').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyForeignResearchStatusRevisedBtn = document.getElementById('copyForeignResearchStatusRevisedBtn');
+            if (copyForeignResearchStatusRevisedBtn) {
+                copyForeignResearchStatusRevisedBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('国外研究现状-润色版').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyLiteratureReviewBtn = document.getElementById('copyLiteratureReviewBtn');
+            if (copyLiteratureReviewBtn) {
+                copyLiteratureReviewBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('文献评述').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
+            const copyDomesticAndForeignResearchStatusBtn = document.getElementById('copyDomesticAndForeignResearchStatusBtn');
+            if (copyDomesticAndForeignResearchStatusBtn) {
+                copyDomesticAndForeignResearchStatusBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText('国内外研究现状 ').then(() => {
+                        // 可选：显示已复制提示
+                        copyToast.classList.remove('translate-y-20', 'opacity-0');
+                        copyToast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            copyToast.classList.add('translate-y-20', 'opacity-0');
+                            copyToast.classList.remove('translate-y-0', 'opacity-100');
+                        }, 1500);
+                    });
+                });
+            }
             
             // 存储已选择的提示词
             const activePrompts = {
@@ -881,7 +1592,30 @@
                 ResearchTimeline: [],
                 ResearchRoadmap: [],
                 ResearchRoadmap1: [],
-                ResearchKeywords: []
+                ResearchKeywords: [],
+                DomesticResearchStatus: [],
+                DomesticResearchStatus1: [],
+                DomesticResearchStatus2: [],
+                ForeignResearchStatus: [],
+                ForeignResearchStatus1: [],
+                ForeignResearchStatusRevised: [],
+                ForeignResearchStatusRevised1: [],
+                ForeignResearchStatusRevised2: [],
+                LiteratureReview: [],
+                OutlineReading: [],
+                BackgroundReading: [],
+                background2: [],
+                background3: [],
+                significance1: [],
+                ResearchContent1: [],
+                ResearchMethods1: [],
+                readWordDoc: [],
+                Conclusion: [],
+                thanks: [],
+                abstract: [],
+                abstract1: [],
+                modify: [],
+                QuestionnaireEmpirical: [],
             };
             
             // 基础提示词模板
@@ -900,16 +1634,41 @@
                 ResearchTimeline: '很好，根据上述搜索的结果，我们来写第四章【预期结果及目标】的第1节【进度计划安排】  使用学术语言，用文本段的形式回答我；  \n\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；  注意上下文逻辑；',
                 ResearchRoadmap: '你是一个Mermaid结构图构建专家，擅长将论文提纲转化为结构清晰、逻辑流畅的技术路线图。请根据以下论文结构生成 Mermaid 格式的代码，具体要求如下：\n\n【基本结构要求】\n使用 graph TB 设置自上而下布局。\n使用一个名为“技术路线图”的总 subgraph 包裹整张图。\n每个一级模块（如“A ["第1章 绪论 "]”）生成一个子图 subgraph A1，并以模块名称作为子图标题，例如subgraph A1 ["绪论"]；\n一级模块 A，连接至对应的子图 A1；但A\B\C\D等一级模块不用箭头相连\n每个子图内包含若干二级节点及三级节点时，使用方括号[" "]形式表示，并且连接（如A1_1["1.1 研究背景与意义"]--> A1_1_1["1.1.1 研究背景"]）。\n\n【样式与节点要求】\n使用 style 设置颜色块区分章节（颜色代码参考如下）：\nA：#FFD1DC\nB：#ADD8E6\nC：#FFE4B5\nD：#D0F0C0\nE：#E0FFFF\n...\n\n【输出格式要求】\n输出完整的 Mermaid 代码（可直接用于 https://www.min2k.com/tools/mermaid/），不要加解释说明。\n所有节点请使用中文。\n层级结构与逻辑顺序应与原始提纲一致。\n\n以下是我的论文提纲，请开始生成：  \n【  】      ',
                 ResearchRoadmap1: '这是我的技术路线图，你使用学术语言，用一段话阐述一下，字数500字；  不要使用强逻辑连接词例如：首先、其次、最后、综上所述等；',
-                ResearchKeywords: '我是一名【{major}】专业的【{education}】生，即将毕业，我的研究主题是《{topic}》,现在正在查找文献，请你扮演我的校外指导教授，对于我的研究主题非常的擅长，尤其是对于这类题目关键词的拆分是十分熟悉。请你根据我的题目帮我拆分一下关键词，方便我查找国内外的文献，从而来写文献综述。'
+                ResearchKeywords: '我是一名【{major}】专业的【{education}】生，即将毕业，我的研究主题是《{topic}》,现在正在查找文献，请你扮演我的校外指导教授，对于我的研究主题非常的擅长，尤其是对于这类题目关键词的拆分是十分熟悉。请你根据我的题目帮我拆分一下关键词，方便我查找国内外的文献，从而来写文献综述。',
+                DomesticResearchStatus: '我是一名【{major}】专业的本科生，即将毕业，我的研究主题是《{topic}》，这是我找的国内研究现状的文献。\n请你扮演我的校外指导教授，对于我的研究主题非常的擅长，尤其是对于这类题目文献的总结十分熟悉。\n请你阅读并且掌握一下我给你的文献。' ,
+                DomesticResearchStatus1:'我是一名【{major}】专业的硕士生，即将毕业，我的研究主题是《{topic}》，现在正在写文献综述的【{subSection}】部分。这是我找的国内研究现状的文献。\n请你扮演我的校外指导教授，对于我的研究主题非常的擅长，尤其是对于这类题目文献的总结十分熟悉。​ \n请你阅读并且掌握一下我给你的文献。',
+                DomesticResearchStatus2: '    很好，再将这【】个文献总结，组成几段话，每一段至少包含2个文献，文献之间要有联系。作者(年份)要有体现。字数【00】字。总结的要与我的主题相符相关，你可以适当编造，但是要合理。\n\n参考格式：关于问题链，国外对于问题链教学的研究是比较少的。研究者们大多数集中于研究怎么样去提出和组织问题，然后如何去解决相关的问题。在这些研究中，Robertson(2004)指出教学最终的目标是通过解决问题让学生学会知识和技能。CoralPepper(2009)认为问题链教学对于教师的教学很有优势，并且通过自己的实验证明了问题链的可行性和学生认可度。BeauflyJones(2014)还指出教师应该在教学中设计一系列驱动问题，构建驱动链来引导学生积极思考。把解决问题的主动权交由学生。因此来培养学生学习的积极性。MahmutTov(1994)认为基于问题的教学是一种先进的教学。教师可以通过设计一系列不同层次的活动来激发学生的已有知识，教师和学生在解决这些问题的过程中就是在对知识进行探索，就是在取得进步。Beauetal(1997)则提出教师应该培养学生的思维能力和解决问题的能力来让课堂变得积极主动有活力。一堂课学生是否能有效的配合，积极的参与少不了教师对于问题的精心设计。HowardBarrows(1980)早前也提出以问题为中心的教学模式。',
+                ForeignResearchStatus:'我是一名【{major}】专业的本科生，即将毕业，我的研究主题是《{topic}》，现在正在写《国外研究现状》，请你扮演我的校外指导教授，对于我的研究主题非常的擅长，尤其是对于这类的文献总结十分熟悉。我将给你文献，你帮我总结一下。要先阅读文档，然后再内容总结；使用学术语言，用一段话阐述，如果有关键数据，要体现。开头就要指出作者（年份），但是其研究题目不要出现。\n\n格式例子（只参考格式，不参考内容）：\nButova等人（2019）在其研究中深入探讨了在现代条件下农业产品的地域品牌化问题，强调了提高农业企业在国内外市场的销售增长、效率提升和经济安全的重要性。他们指出，尽管俄罗斯农业企业近年来在原料、原材料和饲料生产方面取得了发展，但提高农业企业的效率仍是一个紧迫且复杂的任务。研究揭示了影响农业企业效率的两组原因：客观因素，主要是由地域因素如自然和气候条件引起的；以及主要因素，包括官员的纪律问题和农业技术的不完善。此外，作者还强调了市场因素在提高农业企业效率中的重要性，特别是需求对销售增长的影响，以及在投资市场上的股东和投资者的日益增强的角色。他们还提出了地域品牌化作为一种工具，可以创造协同效应，确保产品质量和市场对农产品的支持。研究中还特别提到了俄罗斯对地域品牌的兴趣正在增长，地域当局正在形成地域品牌的概念和计划。最后，他们提出了一个针对农业领域的地域品牌模型，以帮助解决科学问题并将其应用于地域品牌实践。',
+                ForeignResearchStatus1:'我是一名【{major}】专业的硕士生，即将毕业，我的研究主题是《{topic}》，现在正在写文献综述的【{subSection1}】部分。请你扮演我的校外指导教授，对于我的研究主题非常的擅长，尤其是对于这类题目文献的总结十分熟悉。我将给你文献，你帮我总结一下。要先阅读文档，然后再内容总结；使用学术语言，用一段话阐述，如果有关键数据，要体现。开头就要指出作者（年份），但是其研究题目不要出现。 \n格式例子（只参考格式，不参考内容）：\nButova等人（2019）在其研究中深入探讨了在现代条件下农业产品的地域品牌化问题，强调了提高农业企业在国内外市场的销售增长、效率提升和经济安全的重要性。他们指出，尽管俄罗斯农业企业近年来在原料、原材料和饲料生产方面取得了发展，但提高农业企业的效率仍是一个紧迫且复杂的任务。研究揭示了影响农业企业效率的两组原因：客观因素，主要是由地域因素如自然和气候条件引起的；以及主要因素，包括官员的纪律问题和农业技术的不完善。此外，作者还强调了市场因素在提高农业企业效率中的重要性，特别是需求对销售增长的影响，以及在投资市场上的股东和投资者的日益增强的角色。他们还提出了地域品牌化作为一种工具，可以创造协同效应，确保产品质量和市场对农产品的支持。研究中还特别提到了俄罗斯对地域品牌的兴趣正在增长，地域当局正在形成地域品牌的概念和计划。最后，他们提出了一个针对农业领域的地域品牌模型，以帮助解决科学问题并将其应用于地域品牌实践。',
+                ForeignResearchStatusRevised:'我在写「国外研究现状」将刚刚总结的这【】个文献总结，组成一段话，文献之间要有联系。作者(年份)要有体现。字数500字;\n参考格式：关于问题链，国外对于问题链教学的研究是比较少的。研究者们大多数集中于研究怎么样去提出和组织问题，然后如何去解决相关的问题。在这些研究中，Robertson(2004)指出教学最终的目标是通过解决问题让学生学会知识和技能。CoralPepper(2009)认为问题链教学对于教师的教学很有优势，并且通过自己的实验证明了问题链的可行性和学生认可度。BeauflyJones(2014)还指出教师应该在教学中设计一系列驱动问题，构建驱动链来引导学生积极思考。把解决问题的主动权交由学生。因此来培养学生学习的积极性。MahmutTov(1994)认为基于问题的教学是一种先进的教学。教师可以通过设计一系列不同层次的活动来激发学生的已有知识，教师和学生在解决这些问题的过程中就是在对知识进行探索，就是在取得进步。Beauetal(1997)则提出教师应该培养学生的思维能力和解决问题的能力来让课堂变得积极主动有活力。一堂课学生是否能有效的配合，积极的参与少不了教师对于问题的精心设计。HowardBarrows(1988)早前也提出以问题为中心的教学模式。',
+                ForeignResearchStatusRevised1:'我是一名【{major}】专业的硕士生，即将毕业，我的研究主题是《{topic}》，现在正在写文献综述的【{subSection1}】部分。将文档中总结的这【】个文献总结，组成一段话，文献之间要有联系。作者(年份)要有体现。字数500字;\n参考格式：关于问题链，国外对于问题链教学的研究是比较少的。研究者们大多数集中于研究怎么样去提出和组织问题，然后如何去解决相关的问题。在这些研究中，Robertson(2004)指出教学最终的目标是通过解决问题让学生学会知识和技能。CoralPepper(2009)认为问题链教学对于教师的教学很有优势，并且通过自己的实验证明了问题链的可行性和学生认可度。BeauflyJones(2014)还指出教师应该在教学中设计一系列驱动问题，构建驱动链来引导学生积极思考。把解决问题的主动权交由学生。因此来培养学生学习的积极性。MahmutTov(1994)认为基于问题的教学是一种先进的教学。教师可以通过设计一系列不同层次的活动来激发学生的已有知识，教师和学生在解决这些问题的过程中就是在对知识进行探索，就是在取得进步。Beauetal(1997)则提出教师应该培养学生的思维能力和解决问题的能力来让课堂变得积极主动有活力。一堂课学生是否能有效的配合，积极的参与少不了教师对于问题的精心设计。HowardBarrows(1988)早前也提出以问题为中心的教学模式。',
+                ForeignResearchStatusRevised2:'我是一名【{major}】专业的硕士生，即将毕业，我的研究主题是《{topic}》，现在正在写文献综述部分。现在请你分别给1.3.1-1.3.5这5个小节的最后添加一段200字的总结',
+                LiteratureReview:'现在，结合刚刚分析的“研究现状”，我们来撰写“文献评述”的部分。\n要符合以下几点：\n1.对已回顾过的文献观点进行研究现状的陈述并给出相应的评价。\n2.梳理研究现状要评论存有哪些研究优势/规律/趋势或不足之处。\n3.呈现本研究的切入点。\n4.500字左右。\n格式参考：\n综上，文献中主要阐述了国内外人士在职员招聘问题方面的研究，并对研究成果及观点做了梳理总结，获得结论有：一方面，企业要基于其现实需求，科学剖析并提出人才需求；另外，在招聘渠道上，企业应当结合多种招聘渠道考虑其实情，寻求招聘效率最大化实现最好的招聘效果。同时，在招聘中企业应依据职位需求选出最契合职位的人才录用；最后，在评估招聘成效时，企业要考多方要素，以得出更精确的结论。这些成果为国内外公司在重新思考员工招聘问题时提供了有益的经验。对于我国公司来说，人事管理理念已由传统经济体制下的观念转变为以人为本的管理理念。这一点得到了学术界的普遍认可。尽管国内外已经深入探讨了企业招聘的问题，并取得了丰硕成果，但对于特定企业招聘过程中所存在的问题以及优化策略的研究还不够全面和详尽。目前，大部分研究更倾向于关注制造业、房地产业、零售业、互联网行业等具有一般代表性的行业，而对于高新技术企业的人才招聘问题研究相对较少。所以，本研究选择了广州仙逸公司作为研究对象，该公司是一家中小型的电子科技公司，主要经营范围包括电子及通信技术研究与开发、自动控制技术研究与开发，以及电子元器件的批发等。通过对该公司的招聘团队建设、招聘流程的优化、招聘渠道的选择以及招聘效果评估等方面进行探究和分析，希望能够对广州仙逸电子科技公司的招聘体系进行优化设计。从21世纪初到今天，中国在人力资源管理方面取得了显著进展，已经不再局限于概念上的更新深化。随着研究经验与技术的飞速发展，影响企业人力资源管理的因素也越来越具体化。',
+                OutlineReading:'我是一名【{education}】生，即将毕业，现在正准备写论文，我的研究主题是《{topic}》。\n\n请你扮演我的指导老师，对于我学术研究方向的学术造诣非常深。\n\n这是我的论文大纲，你先阅读并且分析一下，如下：\n【\n{outline}\n】\n\n不要着急，一步一步分析，这对我的学术研究很重要！！',
+                BackgroundReading:'非常好，我们来写第一章 绪论 的 第一节 1.1 研究背景部分。使用文本段的形式回答，字数 300 字。',
+                background2: '帮我搜索一下和我主题相关的政策和事实，【{topic}】；我准备放到研究背景中，作为论证补充；',
+                background3: '很好，根据上述搜索的结果，我们来写第一章【绪论】的第1节【研究背景】  使用学术语言，用文本段的形式回答我；\n不要使用强逻辑的连接词，比如【首先、其次、最后、综上所述】；  注意上下文逻辑；',
+                significance1:'非常好，我们来写第一章 绪论 的 第2节 1.2 研究意义。使用文本段的形式回答，字数一共 300 字。​ \n这个部分从两个方面回答，理论意义和实践意义。​ \n不要着急，这对我的学术研究很重要！！',
+                ResearchContent1: '非常好，我们来写第一章 绪论 的 第3节 1.3研究内容。使用文本段的形式回答，字数一共400字。​\n\n不要着急，这对我的学术研究很重要！！',
+                ResearchMethods1: '非常好，我们来写第一章 绪论 的 第4节 1.4 研究方法。使用文本段的形式回答，字数一共150 字。​\n\n不要着急，这对我的学术研究很重要！！',
+                readWordDoc: '我是一名【{major}】专业的【{education}】生，即将毕业，我的研究主题是《{topic}》，请你扮演我的校外指导教授，对于我的研究主题非常的擅长。你先阅读并且理解一下我给你的文档。请用中文输出。',
+                Conclusion:'非常好，上传的文档是我前 7 章的内容，现在我们来写第 8 章 结论部分，需要有这3点【\n-研究总结 \n-研究的理论与实践意义 \n-研究局限与未来展望】\n\n使用文本段的形式回答我，保持整体的完整性！！！字数 600 字。\n\n不要着急，这对我的学术研究很重要！！',
+                thanks: '很好，我们开始写 致谢 部分，不要出现具体的人和机构名字，就写一稿通用的内容就可以，500 字。词藻华丽一些。',
+                abstract: '摘要如何写，需要包含哪些要点，你从网上帮我总结一下，本科生摘要写作方法',
+                abstract1: '这是我写的论文部分，你帮我按照你上面梳理的要求，生成一份符合我主题的「摘要」。\n一段话阐述，摘要的要点要全，字数 300 字。',
+                modify:'这是我的导师对【具体章节】提出的意见：​\n【​\n修改意见​\n】​\n​\n请你按照我导师的修改意见修改以下内容，【00】字：​\n【​\n要修改的原文​\n】',
+                QuestionnaireEmpirical:'你是一名实证分析专家，熟悉实证分析的具体流程，精通各种实证分析方法。我是一名【{major}】专业的【{education}】生，需要撰写论文《{topic}》。论文需要用到问卷调查形式的实证分析，请你告诉我具体的实证分析流程和步骤',
             };
-            
-            // 更新提示词函数
+                // 更新提示词函数
             function updateAllPrompts() {
                 const major = majorInput.value.trim() || '请先输入专业';
                 const education = educationInput.value.trim() || '请先输入学历';
                 const topic = researchTopicInput.value.trim() || '请先输入研究主题';
                 const chapter = chapterTitleInput.value.trim() || '请输入章节题目';
-                
+                const subSection = subSectionTitleInput.value.trim() || '请输入小节题目';
+                const subSection1 = subSectionTitle1Input.value.trim() || '请输入小节题目';
+                const outline = outlineInput.value.trim() || '请输入论文大纲';
+
                 // 更新所有提示词
                 Object.keys(basePrompts).forEach(group => {
                     let promptElement = document.getElementById(`${group}Prompt`);
@@ -920,8 +1679,11 @@
                         .replace('{major}', major)
                         .replace('{education}', education)
                         .replace('{topic}', topic)
-                        .replace('{chapter}', chapter);
-                    
+                        .replace('{chapter}', chapter)
+                        .replace('{subSection}', subSection)
+                        .replace('{subSection1}', subSection1)
+                        .replace('{outline}', outline);
+
                     // 组合基础提示词和选中的提示词
                     let fullPrompt = basePrompt;
                     activePrompts[group].forEach(prompt => {
@@ -943,7 +1705,16 @@
             
             // 监听章节题目输入变化
             chapterTitleInput.addEventListener('input', updateAllPrompts);
-            
+
+            // 监听小节题目输入变化
+            subSectionTitleInput.addEventListener('input', updateAllPrompts);
+
+            // 监听小节题目输入变化
+            subSectionTitle1Input.addEventListener('input', updateAllPrompts);
+
+            // 监听小节题目输入变化
+            outlineInput.addEventListener('input', updateAllPrompts);
+
             // 提示词按钮点击事件 - 切换状态
             promptButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -1171,13 +1942,13 @@
                 });
             });
 
-            // 初始：为第一个（开题报告）生成子导航（若存在）
-            const firstNav = document.querySelector('.nav-item[href="#开题报告"]');
+            // 初始：为第一个（正文）生成子导航（若存在）
+            const firstNav = document.querySelector('.nav-item[href="#正文"]');
             if (firstNav) {
                 const parentLi = firstNav.closest('li');
                 const container = parentLi ? parentLi.querySelector('.sub-nav-container') : null;
                 if (container) {
-                    generateSubNavInto('开题报告', container);
+                    generateSubNavInto('正文', container);
                 }
             }
 
